@@ -1,3 +1,6 @@
+import json.JSONException;
+import json.JSONObject;
+
 import java.io.*;
 import java.net.Socket;
 
@@ -25,10 +28,20 @@ class MessageListener extends Thread {
                 final InputStream is = socket.getInputStream();
                 BufferedReader reader = new BufferedReader(new InputStreamReader(is));
 
-                while (socket.isConnected()) {
-                    String line = reader.readLine();
+                while (!socket.isClosed() && socket.isConnected()) {
+                    System.out.println(".");
 
-                    System.out.println("[CONSOLE]: " + line);
+                    try {
+                        JSONObject json = new JSONObject(reader.readLine());
+                        final String username = json.optString("username", "default");
+                        final String colour = json.optString("colour", "#000000");
+                        final String message = json.optString("message", "");
+
+                        if (!message.isEmpty()) System.out.println("[" + username + "]: " + message);
+                    } catch (JSONException je) {
+//                        je.printStackTrace();
+                        System.err.println("Receiving a message went wrong.");
+                    }
                 }
             }
         } catch (IOException ioe) {

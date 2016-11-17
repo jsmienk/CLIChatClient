@@ -11,6 +11,8 @@ public class APL {
     static final String SERVER_ADDRESS = "localhost";
     static final int SERVER_PORT = 1234;
 
+    private Socket socket;
+
     private User user;
 
     public static void main(String[] args) {
@@ -19,34 +21,52 @@ public class APL {
     }
 
     private void run() {
-        try {
-            // create the connection
-            final Socket socket = new Socket(APL.SERVER_ADDRESS, APL.SERVER_PORT);
+        while (true) {
+            try {
+                connect();
+                break;
+            } catch (IOException ioe) {
+//            ioe.printStackTrace();
+                System.err.print("Could not reach the server at this time.\nTrying again in 10 seconds.");
 
-            final Scanner scanner = new Scanner(System.in);
-            // ask for username
-            System.out.println("Please, enter your username:");
-            final String username = scanner.next();
-
-            // ask for a valid colour
-            String colour = "";
-            while (colour.length() != 7 || colour.charAt(0) != '#') {
-                System.out.println("Please, enter your colour as #RRGGBB:");
-                colour = scanner.next();
+                // sleep for 5 seconds
+                try {
+                    for (int i = 0; i < 10; i++) {
+                        System.out.print(".");
+                        Thread.sleep(1000);
+                    }
+                    System.out.println();
+                } catch (InterruptedException e) {
+                    e.printStackTrace();
+                }
             }
-
-            // confirm
-            System.out.println("You have chosen username: " + username);
-            System.out.println("You have chosen colour: " + colour);
-
-            user = new User(username, colour);
-
-            // start two threads
-            new MessageListener(socket).start();
-            new MessageSender(socket, user).start();
-        } catch (IOException ioe) {
-            ioe.printStackTrace();
-            System.err.println("Socket IOException occurred.");
         }
+
+        // start two threads
+        new MessageListener(socket).start();
+        new MessageSender(socket, user).start();
+    }
+
+    private void connect() throws IOException {
+        // create the connection
+        socket = new Socket(APL.SERVER_ADDRESS, APL.SERVER_PORT);
+
+        final Scanner scanner = new Scanner(System.in);
+        // ask for username
+        System.out.println("Please, enter your username:");
+        final String username = scanner.next();
+
+        // ask for a valid colour
+        String colour = "";
+        while (colour.length() != 7 || colour.charAt(0) != '#') {
+            System.out.println("Please, enter your colour as #RRGGBB:");
+            colour = scanner.next();
+        }
+
+        // confirm
+        System.out.println("You have chosen username: " + username);
+        System.out.println("You have chosen colour: " + colour);
+
+        user = new User(username, colour);
     }
 }
