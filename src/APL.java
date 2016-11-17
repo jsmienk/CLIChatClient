@@ -58,8 +58,10 @@ public class APL {
 
         // ask for a valid colour
         String colour = "";
-        while (colour.length() != 7 || colour.charAt(0) != '#') {
-            System.out.println("Please, enter your colour as #RRGGBB:");
+        while (!colour.equalsIgnoreCase("RED")|| !colour.equalsIgnoreCase("BLACK") || !colour.equalsIgnoreCase("CYAN")
+                || !colour.equalsIgnoreCase("PURPLE") || !colour.equalsIgnoreCase("BLUE") || !colour.equalsIgnoreCase("YELLOW")
+                || !colour.equalsIgnoreCase("GREEN")) {
+            System.out.println("Please, enter your colour:");
             colour = scanner.next();
         }
 

@@ -12,6 +12,7 @@ import java.util.Scanner;
  */
 class MessageSender extends Thread {
 
+
     private final Socket socket;
 
     private final User user;
@@ -39,7 +40,7 @@ class MessageSender extends Thread {
             //noinspection InfiniteLoopStatement
             while (true) {
                 if (scanner.hasNextLine()) {
-                    final String message = scanner.nextLine().trim();
+                    final String message = "{ message: "+scanner.nextLine().trim()+"}";
 
                     // command
                     if (message.charAt(0) == '/') {
