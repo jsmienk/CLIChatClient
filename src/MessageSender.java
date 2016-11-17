@@ -12,19 +12,28 @@ class MessageSender extends Thread {
 
     private final Socket socket;
 
-    MessageSender(Socket socket) {
+    private final User user;
+
+    MessageSender(Socket socket, User user) {
         this.socket = socket;
+        this.user = user;
     }
 
     @Override
     public void run() {
         try {
             OutputStream os = socket.getOutputStream();
-
             PrintWriter writer = new PrintWriter(os);
 
+            // send the first message with a username and colour
+
+            writer.println("{\"username\": \"" + user.getUsername() + "\"" +
+                    ", \"colour\": \"" + user.getColour() + "\"}");
+            writer.flush();
+
             final Scanner scanner = new Scanner(System.in);
-            while(true) {
+            //noinspection InfiniteLoopStatement
+            while (true) {
                 if (scanner.hasNextLine()) {
                     writer.println(scanner.nextLine());
                     writer.flush();
@@ -32,7 +41,7 @@ class MessageSender extends Thread {
             }
         } catch (IOException ioe) {
             ioe.printStackTrace();
-            System.out.println("Your message could not be send!");
+            System.err.println("Your message could not be send!");
         }
     }
 }
