@@ -14,8 +14,9 @@ class MessageListener extends Thread {
         System.out.println("Trying to connect to: " + APL.SERVER_ADDRESS + ":" + APL.SERVER_PORT);
 
         Socket socket = new Socket(APL.SERVER_ADDRESS, APL.SERVER_PORT);
-        if (socket.isConnected()) {
-            System.out.println("Successfully connected.. Happy chatting!");
+        if (socket.isConnected()) System.out.println("Successfully connected.. Happy chatting!");
+
+        while (socket.isConnected()) {
             is = socket.getInputStream();
             os = socket.getOutputStream();
         }
@@ -27,7 +28,7 @@ class MessageListener extends Thread {
             BufferedReader reader = new BufferedReader(new InputStreamReader(is));
             String line = reader.readLine();
 
-            System.out.println(line);
+            System.out.println("[CONSOLE]: " + line);
         } catch (IOException ioe) {
             ioe.printStackTrace();
             System.err.println("BufferedReader IOException occurred.");
