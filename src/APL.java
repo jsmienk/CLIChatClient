@@ -1,4 +1,5 @@
 import java.io.*;
+import java.net.Socket;
 
 /**
  * Author: Jeroen
@@ -15,7 +16,12 @@ public class APL {
 
     private void run() {
         try {
-            new MessageListener().start();
+            // create the connection
+            final Socket socket = new Socket(APL.SERVER_ADDRESS, APL.SERVER_PORT);
+
+            // start two threads
+            new MessageListener(socket).start();
+            new MessageSender(socket).start();
         } catch (IOException ioe) {
             ioe.printStackTrace();
             System.err.println("Socket IOException occurred.");

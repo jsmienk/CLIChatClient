@@ -7,32 +7,30 @@ import java.net.Socket;
  */
 class MessageListener extends Thread {
 
-    private InputStream is;
-    private OutputStream os;
+    private final Socket socket;
 
-    MessageListener() throws IOException {
-        System.out.println("Trying to connect to: " + APL.SERVER_ADDRESS + ":" + APL.SERVER_PORT);
-
-        Socket socket = new Socket(APL.SERVER_ADDRESS, APL.SERVER_PORT);
-        if (socket.isConnected()) System.out.println("Successfully connected.. Happy chatting!");
-
-        while (socket.isConnected()) {
-            is = socket.getInputStream();
-            os = socket.getOutputStream();
-
-            PrintWriter writer = new PrintWriter(os);
-            writer.println("Hallo!");
-            writer.flush();
-        }
+    MessageListener(Socket socket) {
+        this.socket = socket;
     }
 
     @Override
     public void run() {
-        try {
-            BufferedReader reader = new BufferedReader(new InputStreamReader(is));
-            String line = reader.readLine();
+        System.out.println("Trying to connect to: " + APL.SERVER_ADDRESS + ":" + APL.SERVER_PORT);
 
-            System.out.println("[CONSOLE]: " + line);
+        try {
+            // connect to the server
+            if (socket.isConnected()) {
+                System.out.println("Successfully connected.. Happy chatting!");
+
+                final InputStream is = socket.getInputStream();
+                BufferedReader reader = new BufferedReader(new InputStreamReader(is));
+
+                while (socket.isConnected()) {
+                    String line = reader.readLine();
+
+                    System.out.println("[CONSOLE]: " + line);
+                }
+            }
         } catch (IOException ioe) {
             ioe.printStackTrace();
             System.err.println("BufferedReader IOException occurred.");
