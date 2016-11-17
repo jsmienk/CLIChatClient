@@ -19,6 +19,10 @@ class MessageListener extends Thread {
         while (socket.isConnected()) {
             is = socket.getInputStream();
             os = socket.getOutputStream();
+
+            PrintWriter writer = new PrintWriter(os);
+            writer.println("Hallo!");
+            writer.flush();
         }
     }
 
