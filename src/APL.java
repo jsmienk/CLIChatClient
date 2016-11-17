@@ -58,12 +58,9 @@ public class APL {
 
         // ask for a valid colour
         String colour = "";
-        while (!colour.equalsIgnoreCase("RED")|| !colour.equalsIgnoreCase("BLACK") || !colour.equalsIgnoreCase("CYAN")
-                || !colour.equalsIgnoreCase("PURPLE") || !colour.equalsIgnoreCase("BLUE") || !colour.equalsIgnoreCase("YELLOW")
-                || !colour.equalsIgnoreCase("GREEN")) {
             System.out.println("Please, enter your colour:");
             colour = scanner.next();
-        }
+
 
         // confirm
         System.out.println("You have chosen username: " + username);
