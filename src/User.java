@@ -8,9 +8,9 @@ class User {
 
     private final String username;
 
-    private final Color colour;
+    private final ColorOut.Colour colour;
 
-    User(String username, Color colour) {
+    User(String username, ColorOut.Colour colour) {
         this.username = username;
         this.colour = colour;
     }
@@ -19,7 +19,7 @@ class User {
         return username;
     }
 
-    Color getColour() {
+    ColorOut.Colour getColour() {
         return colour;
     }
 }

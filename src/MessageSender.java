@@ -42,17 +42,19 @@ class MessageSender extends Thread {
                 if (scanner.hasNextLine()) {
                     final String message = scanner.nextLine().trim();
 
-                    // command
-                    if (message.charAt(0) == '/') {
-                        Command.execute(socket, message);
-                        continue;
+                    if (message.length() > 0) {
+                        // command
+                        if (message.charAt(0) == '/') {
+                            Command.execute(socket, message);
+                            continue;
+                        }
+
+                        final JSONObject json = new JSONObject();
+                        json.put("message", message);
+
+                        writer.println(json.toString());
+                        writer.flush();
                     }
-
-                    final JSONObject json = new JSONObject();
-                    json.put("message", message);
-
-                    writer.println(json.toString());
-                    writer.flush();
                 }
             }
         } catch (IOException ioe) {

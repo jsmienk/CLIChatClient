@@ -17,6 +17,36 @@ class ColorOut {
     enum Colour {
         BLACK, RED, GREEN, YELLOW, BLUE, PURPLE, CYAN;
 
+        static Colour getColour(String colour) {
+            switch (colour.toUpperCase()) {
+                case "RED":
+                    return RED;
+                case "BLUE":
+                    return BLUE;
+                case "YELLOW":
+                    return YELLOW;
+                case "GREEN":
+                    return GREEN;
+                case "CYAN":
+                    return CYAN;
+                case "PURPLE":
+                    return PURPLE;
+                default:
+                    return BLACK;
+            }
+        }
+
+        static void printColours() {
+            int count = 0;
+            for (Colour c : Colour.values()) {
+                count++;
+                print(c.toString(), c);
+                if (count != Colour.values().length)
+                    print(", ", BLACK);
+            }
+            println(".", BLACK);
+        }
+
         String getColourCode() {
             switch (this) {
                 case RED:
@@ -34,25 +64,6 @@ class ColorOut {
                 // black and everything else
                 default:
                     return "\u001B[30m";
-            }
-        }
-
-        static Colour getColour(String colour) {
-            switch (colour.toUpperCase()) {
-                case "RED":
-                    return RED;
-                case "BLUE":
-                    return BLUE;
-                case "YELLOW":
-                    return YELLOW;
-                case "GREEN":
-                    return GREEN;
-                case "CYAN":
-                    return CYAN;
-                case "PURPLE":
-                    return PURPLE;
-                default:
-                    return BLACK;
             }
         }
     }

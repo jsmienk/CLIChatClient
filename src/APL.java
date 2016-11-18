@@ -64,32 +64,15 @@ public class APL {
         final String username = scanner.next();
 
         // ask for a valid colour
-        int r, g, b;
-        System.out.println("Please, enter the RED value for your colour:");
-        r = getColorValue(scanner);
-        System.out.println("Please, enter the GREEN value for your colour:");
-        g = getColorValue(scanner);
-        System.out.println("Please, enter the BLUE value for your colour:");
-        b = getColorValue(scanner);
-
-        Color colour = new Color(r, g, b);
+        System.out.println("\nPlease, enter your colour:");
+        ColorOut.Colour.printColours();
+        ColorOut.Colour colour = ColorOut.Colour.getColour(scanner.next());
 
         // confirm
         System.out.println("\nYou have chosen username: " + username);
-        System.out.println("You have chosen colour: " + colour + "\n");
+        System.out.print("You have chosen colour: ");
+        ColorOut.println(colour.toString() + "\n", colour);
 
         user = new User(username, colour);
-    }
-
-    private int getColorValue(final Scanner sc) {
-        int value = -1;
-        while (value < 0 || value > 255) {
-            try {
-                value = sc.nextInt();
-            } catch (InputMismatchException ime) {
-                System.err.println("Enter a value between 0 and 255");
-            }
-        }
-        return value;
     }
 }
