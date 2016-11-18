@@ -11,11 +11,12 @@ enum Command {
     me,
     whisper,
     showcolours,
-    setcolour;
+    setcolour,
+    setusername;
 
     static void execute(String commandLine) throws IOException {
-        final String[] arguments = commandLine.toLowerCase().substring(1).split(" ");
-        final String command = arguments[0];
+        final String[] arguments = commandLine.substring(1).split(" ");
+        final String command = arguments[0].toLowerCase();
 
         // if only a '/' is entered
         if (arguments.length == 0) return;
@@ -42,6 +43,12 @@ enum Command {
         // change colour
         if (command.equals(setcolour.toString()) && arguments.length > 1) {
             APL.msgS.changeColour(arguments[1]);
+            return;
+        }
+
+        // change username
+        if (command.equals(setusername.toString()) && arguments.length > 1) {
+            APL.msgS.changeUsername(arguments[1]);
             return;
         }
 
@@ -79,6 +86,7 @@ enum Command {
 
             if (count == 4) System.out.println();
         }
+        System.out.println();
     }
 
     private String getCommandHowto() {
@@ -95,6 +103,8 @@ enum Command {
                 return "/showcolours";
             case setcolour:
                 return "/setcolour <colour>";
+            case setusername:
+                return "/setusername <username>";
             default:
                 return "";
         }

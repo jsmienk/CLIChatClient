@@ -61,7 +61,6 @@ class MessageSender extends Thread {
                     }
                 }
             }
-
         } catch (IOException ioe) {
             ioe.printStackTrace();
             System.err.println("Your message could not be send!");
@@ -99,9 +98,27 @@ class MessageSender extends Thread {
         writer.flush();
     }
 
+    /**
+     * Send a change colour message
+     *
+     * @param colour the colour to change to
+     */
     void changeColour(final String colour) {
         JSONObject json = new JSONObject();
         json.put("colour", ColorOut.Colour.getColour(colour));
+
+        writer.println(json.toString());
+        writer.flush();
+    }
+
+    /**
+     * Send a change usernmae message
+     *
+     * @param username the username to change to
+     */
+    void changeUsername(final String username) {
+        JSONObject json = new JSONObject();
+        json.put("username", username);
 
         writer.println(json.toString());
         writer.flush();
