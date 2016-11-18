@@ -10,7 +10,8 @@ enum Command {
     quit,
     help,
     me,
-    whisper;
+    whisper,
+    changecolour;
 
     static void execute(String commandLine) throws IOException {
         final String[] arguments = commandLine.toLowerCase().substring(1).split(" ");
@@ -29,6 +30,12 @@ enum Command {
         // help
         if (command.equals(help.toString())) {
             printCommands();
+            return;
+        }
+
+        // change colour
+        if (command.equals(changecolour.toString())) {
+            APL.msgS.changeColour();
             return;
         }
 
@@ -78,6 +85,8 @@ enum Command {
                 return "/me <action>";
             case whisper:
                 return "/whisper <username> <message>";
+            case changecolour:
+                return "/changecolour";
             default:
                 return "";
         }
