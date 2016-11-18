@@ -18,9 +18,6 @@ class MessageListener extends Thread {
 
     @Override
     public void run() {
-
-        System.out.println("Trying to connect to: " + APL.SERVER_ADDRESS + ":" + APL.SERVER_PORT);
-
         try {
             // connect to the server
             if (socket.isConnected()) {
@@ -29,13 +26,19 @@ class MessageListener extends Thread {
 
                 // keep receiving messages
                 while (!socket.isClosed() && socket.isConnected()) {
+                    final String serverData = reader.readLine();
+                    if (serverData == null) {
+                        APL.stop();
+                        return;
+                    }
+
                     try {
                         // receive the message as json
-                        JSONObject json = new JSONObject(reader.readLine());
+                        JSONObject serverJSON = new JSONObject(serverData);
 
-                        final String username = json.optString("username", "");
-                        final String colour = json.optString("colour", "BLACK");
-                        final String message = json.optString("message", "");
+                        final String username = serverJSON.optString("username", "");
+                        final String colour = serverJSON.optString("colour", "BLACK");
+                        final String message = serverJSON.optString("message", "");
 
                         // if the user was defined and a message was sent
                         if (!message.isEmpty() && !username.isEmpty())
@@ -49,7 +52,6 @@ class MessageListener extends Thread {
             }
         } catch (IOException ioe) {
             ioe.printStackTrace();
-            System.err.println("BufferedReader IOException occurred.");
         }
     }
 }

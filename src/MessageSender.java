@@ -12,14 +12,19 @@ import java.util.Scanner;
  */
 class MessageSender extends Thread {
 
-
     private final Socket socket;
 
     private final User user;
 
-    MessageSender(Socket socket, User user) {
+    private final Scanner scanner;
+
+    private final PrintWriter writer;
+
+    MessageSender(Socket socket, User user) throws IOException {
         this.socket = socket;
         this.user = user;
+        scanner = new Scanner(System.in);
+        writer = new PrintWriter(socket.getOutputStream());
     }
 
     @Override
@@ -36,7 +41,6 @@ class MessageSender extends Thread {
             writer.println(jsonUser.toString());
             writer.flush();
 
-            final Scanner scanner = new Scanner(System.in);
             //noinspection InfiniteLoopStatement
             while (true) {
                 if (scanner.hasNextLine()) {
@@ -45,7 +49,7 @@ class MessageSender extends Thread {
                     if (message.length() > 0) {
                         // command
                         if (message.charAt(0) == '/') {
-                            Command.execute(socket, message);
+                            Command.execute(message);
                             continue;
                         }
 
@@ -57,9 +61,41 @@ class MessageSender extends Thread {
                     }
                 }
             }
+
         } catch (IOException ioe) {
             ioe.printStackTrace();
             System.err.println("Your message could not be send!");
         }
+    }
+
+    void exit() throws IOException {
+        scanner.close();
+    }
+
+    /**
+     * Send a message in the form of a action e.g. *Jeroen is working*
+     *
+     * @param action what the user is doing
+     */
+    void sendMe(final String action) {
+        // send the first message with a username and colour
+        JSONObject json = new JSONObject();
+        json.put("me", action);
+
+        writer.println(json.toString());
+        writer.flush();
+    }
+
+    /**
+     * Send a message only to a certain user
+     */
+    void sendWhisper(final String username, final String message) {
+        // send the first message with a username and colour
+        JSONObject json = new JSONObject();
+        json.put("to", username);
+        json.put("whisper", message);
+
+        writer.println(json.toString());
+        writer.flush();
     }
 }

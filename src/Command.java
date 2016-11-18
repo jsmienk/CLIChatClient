@@ -8,20 +8,34 @@ import java.net.Socket;
 enum Command {
 
     quit,
-    help;
+    help,
+    me,
+    whisper;
 
-    static void execute(final Socket socket, String command) throws IOException {
+    static void execute(String command) throws IOException {
         command = command.toLowerCase().substring(1);
 
         // quit
         if (command.equals(quit.toString())) {
-            socket.close();
+            APL.stop();
             return;
         }
 
         // help
         if (command.equals(help.toString())) {
             printCommands();
+            return;
+        }
+
+        // me
+        if (command.equals(me.toString())) {
+            APL.msgS.sendMe("");
+            return;
+        }
+
+        // whisper
+        if (command.equals(whisper.toString())) {
+            APL.msgS.sendWhisper("");
             return;
         }
 

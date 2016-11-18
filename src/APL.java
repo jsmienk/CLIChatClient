@@ -1,7 +1,6 @@
 import java.awt.*;
 import java.io.*;
 import java.net.Socket;
-import java.util.InputMismatchException;
 import java.util.Scanner;
 
 /**
@@ -10,22 +9,37 @@ import java.util.Scanner;
  */
 public class APL {
 
-    static final String SERVER_ADDRESS = "localhost";
-    static final int SERVER_PORT = 1234;
+    private static final String SERVER_ADDRESS = "localhost";
 
-    private Socket socket;
+    private static final int SERVER_PORT = 1234;
+
+    static MessageSender msgS;
+
+    private static Socket socket;
 
     private User user;
+
+    private APL() {
+
+    }
 
     public static void main(String[] args) {
         // run the server
         new APL().run();
     }
 
+    static void stop() throws IOException {
+        System.err.println("The ChatServer has stopped! See you again later.");
+        socket.close();
+        msgS.exit();
+        System.exit(0);
+    }
+
     private void run() {
         // try to connect
         while (true) {
             try {
+                System.out.println("Trying to connect to: " + APL.SERVER_ADDRESS + ":" + APL.SERVER_PORT);
                 connect();
                 break;
             } catch (IOException ioe) {
@@ -44,9 +58,16 @@ public class APL {
             }
         }
 
-        // start two threads
+        // start a thread that listens for messages
         new MessageListener(socket).start();
-        new MessageSender(socket, user).start();
+
+        try {
+            // start a thread that can send messages
+            msgS = new MessageSender(socket, user);
+            msgS.start();
+        } catch (IOException ioe) {
+            ioe.printStackTrace();
+        }
     }
 
     /**
@@ -69,8 +90,9 @@ public class APL {
         ColorOut.Colour colour = ColorOut.Colour.getColour(scanner.next());
 
         // done!
-        System.out.print("Welcome, ");
-        ColorOut.println(username + "!\n", colour);
+        System.out.print("\nWelcome, ");
+        ColorOut.println(username + "!", colour);
+        System.out.println("Just type any messages from now on and press ENTER.\n");
 
         user = new User(username, colour);
     }
