@@ -21,6 +21,7 @@ enum Command {
 
         // quit
         if (command.equals(quit.toString())) {
+            System.out.println("Bye!");
             APL.stop();
             return;
         }

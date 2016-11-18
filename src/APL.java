@@ -28,7 +28,6 @@ public class APL {
     }
 
     static void stop() throws IOException {
-        System.err.println("The ChatServer has stopped! See you again later.");
         socket.close();
         msgS.exit();
         System.exit(0);

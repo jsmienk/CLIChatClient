@@ -28,6 +28,7 @@ class MessageListener extends Thread {
                 while (!socket.isClosed() && socket.isConnected()) {
                     final String serverData = reader.readLine();
                     if (serverData == null) {
+                        System.err.println("The ChatServer has stopped! See you again later.");
                         APL.stop();
                         return;
                     }
