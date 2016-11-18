@@ -33,14 +33,6 @@ class MessageSender extends Thread {
             OutputStream os = socket.getOutputStream();
             PrintWriter writer = new PrintWriter(os);
 
-            // send the first message with a username and colour
-            JSONObject jsonUser = new JSONObject();
-            jsonUser.put("username", user.getUsername());
-            jsonUser.put("colour", user.getColour());
-
-            writer.println(jsonUser.toString());
-            writer.flush();
-
             //noinspection InfiniteLoopStatement
             while (true) {
                 if (scanner.hasNextLine()) {

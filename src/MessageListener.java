@@ -44,6 +44,7 @@ class MessageListener extends Thread {
                             switch (error) {
                                 case "username-exists":
                                     System.err.println("[SERVER]: Username is already in use.");
+                                    APL.mutex.release();
                                     break;
                                 case "whisper-to-noone":
                                     System.err.println("[SERVER]: No one is using that username.");
@@ -52,6 +53,12 @@ class MessageListener extends Thread {
                                     break;
                             }
                             continue;
+                        }
+
+                        // accept message
+                        if (serverJSON.has("accept") && serverJSON.optString("accept").equals("accept")) {
+                            APL.userAccepted = true;
+                            APL.mutex.release();
                         }
 
                         // a normal message
