@@ -36,15 +36,37 @@ class MessageListener extends Thread {
                         // receive the message as json
                         JSONObject serverJSON = new JSONObject(serverData);
 
-                        final String username = serverJSON.optString("username", "");
-                        final String colour = serverJSON.optString("colour", "BLACK");
-                        final String message = serverJSON.optString("message", "");
+                        // a normal message
+                        if (serverJSON.has("username") && serverJSON.has("message")) {
+                            final String username = serverJSON.optString("username", "");
+                            final String colour = serverJSON.optString("colour", "BLACK");
+                            final String message = serverJSON.optString("message", "");
 
-                        // if the user was defined and a message was sent
-                        if (!message.isEmpty() && !username.isEmpty())
-                            ColorOut.println("[" + username + "]: " + message, ColorOut.Colour.getColour(colour));
+                            // if the user was defined and a message was sent
+                            if (!message.isEmpty() && !username.isEmpty())
+                                ColorOut.println("[" + username + "]: " + message, ColorOut.Colour.getColour(colour));
+                            continue;
+                        }
+
+                        // a private message
+                        if (serverJSON.has("whisper") && serverJSON.has("from")) {
+                            final String whisper = serverJSON.optString("whisper", "");
+                            final String from = serverJSON.optString("from", "");
+
+                            if (!whisper.isEmpty() && !from.isEmpty())
+                                ColorOut.println("** " + from + " whisper to you: " + whisper, ColorOut.Colour.BLACK);
+                            continue;
+                        }
+
+                        // an action message
+                        if (serverJSON.has("me") && serverJSON.has("colour")) {
+                            final String me = serverJSON.optString("me", "");
+                            final String colour = serverJSON.optString("colour", "");
+
+                            if (!me.isEmpty())
+                                ColorOut.println(me, ColorOut.Colour.getColour(colour));
+                        }
                     } catch (JSONException je) {
-
                         je.printStackTrace();
                         System.err.println("Receiving a message went wrong.");
                     }

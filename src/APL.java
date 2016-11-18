@@ -1,4 +1,3 @@
-import java.awt.*;
 import java.io.*;
 import java.net.Socket;
 import java.util.Scanner;
@@ -92,7 +91,7 @@ public class APL {
         // done!
         System.out.print("\nWelcome, ");
         ColorOut.println(username + "!", colour);
-        System.out.println("Just type any messages from now on and press ENTER.\n");
+        System.out.println("Just type any messages from now on and press ENTER.\nOr type '/help' to see avaiable commands.\n");
 
         user = new User(username, colour);
     }
