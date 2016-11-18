@@ -24,8 +24,6 @@ class MessageListener extends Thread {
         try {
             // connect to the server
             if (socket.isConnected()) {
-                System.out.println("Successfully connected.. Happy chatting!");
-
                 final InputStream is = socket.getInputStream();
                 BufferedReader reader = new BufferedReader(new InputStreamReader(is));
 

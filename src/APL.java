@@ -68,10 +68,9 @@ public class APL {
         ColorOut.Colour.printColours();
         ColorOut.Colour colour = ColorOut.Colour.getColour(scanner.next());
 
-        // confirm
-        System.out.println("\nYou have chosen username: " + username);
-        System.out.print("You have chosen colour: ");
-        ColorOut.println(colour.toString() + "\n", colour);
+        // done!
+        System.out.print("Welcome, ");
+        ColorOut.println(username + "!\n", colour);
 
         user = new User(username, colour);
     }
