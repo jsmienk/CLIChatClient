@@ -56,7 +56,7 @@ class MessageListener extends Thread {
                             final String colour = serverJSON.optString("colour", "");
 
                             if (!whisper.isEmpty() && !from.isEmpty())
-                                ColorOut.println("** " + from + " whisper to you: " + whisper, ColorOut.Colour.getColour(colour));
+                                ColorOut.println("** " + from + " whispers to you: " + whisper + " **", ColorOut.Colour.getColour(colour));
                             continue;
                         }
 

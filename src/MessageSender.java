@@ -99,17 +99,11 @@ class MessageSender extends Thread {
         writer.flush();
     }
 
-    void changeColour(){
-        // ask for a valid colour
-        System.out.println("\nPlease, enter your colour:");
-        ColorOut.Colour.printColours();
-        ColorOut.Colour colour = ColorOut.Colour.getColour(scanner.next());
-
+    void changeColour(final String colour) {
         JSONObject json = new JSONObject();
-        json.put("colour", colour);
+        json.put("colour", ColorOut.Colour.getColour(colour));
 
         writer.println(json.toString());
         writer.flush();
-
     }
 }

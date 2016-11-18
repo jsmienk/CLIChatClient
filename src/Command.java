@@ -1,5 +1,4 @@
 import java.io.IOException;
-import java.net.Socket;
 
 /**
  * Author: Jeroen
@@ -11,7 +10,8 @@ enum Command {
     help,
     me,
     whisper,
-    changecolour;
+    showcolours,
+    setcolour;
 
     static void execute(String commandLine) throws IOException {
         final String[] arguments = commandLine.toLowerCase().substring(1).split(" ");
@@ -33,9 +33,15 @@ enum Command {
             return;
         }
 
+        // print showcolours
+        if (command.equals(showcolours.toString())) {
+            ColorOut.Colour.printColours();
+            return;
+        }
+
         // change colour
-        if (command.equals(changecolour.toString())) {
-            APL.msgS.changeColour();
+        if (command.equals(setcolour.toString()) && arguments.length > 1) {
+            APL.msgS.changeColour(arguments[1]);
             return;
         }
 
@@ -85,8 +91,10 @@ enum Command {
                 return "/me <action>";
             case whisper:
                 return "/whisper <username> <message>";
-            case changecolour:
-                return "/changecolour";
+            case showcolours:
+                return "/showcolours";
+            case setcolour:
+                return "/setcolour <colour>";
             default:
                 return "";
         }
