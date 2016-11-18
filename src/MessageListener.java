@@ -37,6 +37,23 @@ class MessageListener extends Thread {
                         // receive the message as json
                         JSONObject serverJSON = new JSONObject(serverData);
 
+                        // an error message
+                        if (serverJSON.has("error")) {
+                            final String error = serverJSON.optString("error", "");
+
+                            switch (error) {
+                                case "username-exists":
+                                    System.err.println("[SERVER]: Username is already in use.");
+                                    break;
+                                case "whisper-to-noone":
+                                    System.err.println("[SERVER]: No one is using that username.");
+                                    break;
+                                default:
+                                    break;
+                            }
+                            continue;
+                        }
+
                         // a normal message
                         if (serverJSON.has("username") && serverJSON.has("message")) {
                             final String username = serverJSON.optString("username", "");
