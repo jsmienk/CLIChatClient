@@ -52,14 +52,15 @@ class MessageListener extends Thread {
                         if (serverJSON.has("whisper") && serverJSON.has("from")) {
                             final String whisper = serverJSON.optString("whisper", "");
                             final String from = serverJSON.optString("from", "");
+                            final String colour = serverJSON.optString("colour", "");
 
                             if (!whisper.isEmpty() && !from.isEmpty())
-                                ColorOut.println("** " + from + " whisper to you: " + whisper, ColorOut.Colour.BLACK);
+                                ColorOut.println("** " + from + " whisper to you: " + whisper, ColorOut.Colour.getColour(colour));
                             continue;
                         }
 
                         // an action message
-                        if (serverJSON.has("me") && serverJSON.has("colour")) {
+                        if (serverJSON.has("me")) {
                             final String me = serverJSON.optString("me", "");
                             final String colour = serverJSON.optString("colour", "");
 
