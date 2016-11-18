@@ -1,3 +1,5 @@
+import java.awt.*;
+
 /**
  * Author: Jeroen
  * Date created: 17-11-16
@@ -6,9 +8,9 @@ class User {
 
     private final String username;
 
-    private final String colour;
+    private final Color colour;
 
-    User(String username, String colour) {
+    User(String username, Color colour) {
         this.username = username;
         this.colour = colour;
     }
@@ -17,7 +19,7 @@ class User {
         return username;
     }
 
-    String getColour() {
+    Color getColour() {
         return colour;
     }
 }

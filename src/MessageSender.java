@@ -40,42 +40,24 @@ class MessageSender extends Thread {
             //noinspection InfiniteLoopStatement
             while (true) {
                 if (scanner.hasNextLine()) {
-                    final String message = "{ message: "+scanner.nextLine().trim()+"}";
+                    final String message = scanner.nextLine().trim();
 
                     // command
                     if (message.charAt(0) == '/') {
-                        switch (executeCommand(message)) {
-                            case 0:
-                                // quit
-                                return;
-                            default:
-                        }
+                        Command.execute(socket, message);
                         continue;
                     }
 
-                    writer.println(message);
+                    final JSONObject json = new JSONObject();
+                    json.put("message", message);
+
+                    writer.println(json.toString());
                     writer.flush();
                 }
             }
         } catch (IOException ioe) {
             ioe.printStackTrace();
             System.err.println("Your message could not be send!");
-        }
-    }
-
-    /**
-     * Try to execute a command the user entered
-     * @param command /abc
-     */
-    private int executeCommand(final String command) throws IOException {
-        switch (command) {
-            case "/quit":
-                socket.close();
-                return 0;
-            default:
-                // TODO: 17-11-16 RED COLOR
-                System.out.println("'" + command + "' is not a valid command.");
-                return 1;
         }
     }
 }
