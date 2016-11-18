@@ -48,7 +48,7 @@ class MessageSender extends Thread {
 
                     if (message.length() > 0) {
                         // command
-                        if (message.charAt(0) == '/') {
+                        if (message.charAt(0) == '/' && message.length() > 1) {
                             Command.execute(message);
                             continue;
                         }

@@ -50,8 +50,7 @@ class MessageListener extends Thread {
                     }
                 }
             }
-        } catch (IOException ioe) {
-            ioe.printStackTrace();
+        } catch (IOException ignored) {
         }
     }
 }
