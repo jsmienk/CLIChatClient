@@ -11,9 +11,9 @@ import java.util.concurrent.Semaphore;
  */
 public class APL {
 
-    private static final String SERVER_ADDRESS = "localhost";
+    private static final String SERVER_ADDRESS = "163.158.182.205";
 
-    private static final int SERVER_PORT = 1234;
+    private static final int SERVER_PORT = 25565;
 
     static MessageSender msgS;
 
