@@ -40,14 +40,15 @@ class MessageListener extends Thread {
                         // an error message
                         if (serverJSON.has("error")) {
                             final String error = serverJSON.optString("error", "");
+                            final String serverName = serverJSON.optString("server_name", "SERVER");
 
                             switch (error) {
                                 case "username-exists":
-                                    System.err.println("[SERVER]: Username is already in use.");
+                                    System.err.println("[" + serverName + "]: Username is already in use.");
                                     APL.mutex.release();
                                     break;
                                 case "whisper-to-noone":
-                                    System.err.println("[SERVER]: No one is using that username.");
+                                    System.err.println("[" + serverName + "]: No one is using that username.");
                                     break;
                                 default:
                                     break;
