@@ -104,13 +104,24 @@ class MessageSender extends Thread {
     }
 
     /**
-     * Send a change usernmae message
+     * Send a change username message
      *
      * @param username the username to change to
      */
     void changeUsername(final String username) {
         JSONObject json = new JSONObject();
         json.put("username", username);
+
+        writer.println(json.toString());
+        writer.flush();
+    }
+
+    /**
+     * Ask the server or a list of users
+     */
+    void askForUserList() {
+        JSONObject json = new JSONObject();
+        json.put("list", "all");
 
         writer.println(json.toString());
         writer.flush();

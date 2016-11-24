@@ -4,7 +4,7 @@
  */
 class ColorOut {
 
-    private static final String RESET = "\u001B[0m";
+    static final String RESET = "\u001B[0m";
 
     static void print(final String string, Colour colour) {
         System.out.print(colour.getColourCode() + string + RESET);

@@ -12,7 +12,8 @@ enum Command {
     whisper,
     showcolours,
     setcolour,
-    setusername;
+    setusername,
+    list;
 
     static void execute(String commandLine) throws IOException {
         final String[] arguments = commandLine.substring(1).split(" ");
@@ -74,6 +75,11 @@ enum Command {
             return;
         }
 
+        if (command.equals(list.toString())) {
+            APL.msgS.askForUserList();
+            return;
+        }
+
         System.err.println("'/" + command + "' is not a valid command. Type /help for all valid commands.");
     }
 
@@ -105,6 +111,8 @@ enum Command {
                 return "/setcolour <colour>";
             case setusername:
                 return "/setusername <username>";
+            case list:
+                return "/list";
             default:
                 return "";
         }

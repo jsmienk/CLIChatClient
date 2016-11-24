@@ -1,3 +1,4 @@
+import json.JSONArray;
 import json.JSONException;
 import json.JSONObject;
 
@@ -92,6 +93,26 @@ class MessageListener extends Thread {
 
                             if (!me.isEmpty())
                                 ColorOut.println(me, ColorOut.Colour.getColour(colour));
+                        }
+
+                        // a user list message
+                        if (serverJSON.has("userlist")) {
+                            final JSONArray list = serverJSON.optJSONArray("userlist");
+
+                            if (list.length() > 0) {
+                                String message = ColorOut.Colour.BLACK.getColourCode() + "List of users: \n";
+
+                                for (int i = 0; i < list.length(); i++) {
+                                    final JSONObject user = list.optJSONObject(i);
+                                    final String username = user.optString("username", "");
+                                    final String colour = user.optString("colour", "BLACK");
+                                    message += ColorOut.Colour.getColour(colour).getColourCode() + username + "\n";
+                                }
+
+                                message += ColorOut.RESET;
+
+                                System.out.println(message);
+                            }
                         }
                     } catch (JSONException je) {
                         je.printStackTrace();
