@@ -11,7 +11,7 @@ import java.util.concurrent.Semaphore;
  */
 public class APL {
 
-    private static final String SERVER_ADDRESS = "192.168.1.102";//"163.158.182.205";
+    private static final String SERVER_ADDRESS = "127.0.0.1";
 
     private static final int SERVER_PORT = 25565;
 
@@ -22,8 +22,6 @@ public class APL {
     static Semaphore mutex;
 
     private static Socket socket;
-
-    private User user;
 
     private APL() {
         userAccepted = false;
@@ -71,7 +69,7 @@ public class APL {
 
         try {
             // start a thread that can send messages
-            msgS = new MessageSender(socket, user);
+            msgS = new MessageSender(socket);
             msgS.start();
         } catch (IOException ioe) {
             ioe.printStackTrace();
@@ -131,7 +129,5 @@ public class APL {
         ColorOut.print(username, colour);
         System.out.println("!\nJust type any messages from now on and press ENTER.\n" +
                 "Or type '/help' to see avaiable commands.\n");
-
-        user = new User(username, colour);
     }
 }

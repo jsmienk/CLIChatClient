@@ -14,15 +14,12 @@ class MessageSender extends Thread {
 
     private final Socket socket;
 
-    private final User user;
-
     private final Scanner scanner;
 
     private final PrintWriter writer;
 
-    MessageSender(Socket socket, User user) throws IOException {
+    MessageSender(Socket socket) throws IOException {
         this.socket = socket;
-        this.user = user;
         scanner = new Scanner(System.in);
         writer = new PrintWriter(socket.getOutputStream());
     }
